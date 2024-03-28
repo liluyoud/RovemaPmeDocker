@@ -1,9 +1,8 @@
-﻿using RovemaPme.Shared.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace RovemaPme.Data.Entities;
+namespace Rovema.Shared.Entities;
 
-public class Rpa : EntityBase<Guid>
+public class Rpa : EntityBase
 {
     [Required]
     [StringLength(255)]

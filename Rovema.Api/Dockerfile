@@ -3,23 +3,23 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 5000
+EXPOSE 5001
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["RovemaPme.Api/RovemaPme.Api.csproj", "RovemaPme.Api/"]
-RUN dotnet restore "./RovemaPme.Api/RovemaPme.Api.csproj"
+COPY ["Rovema.Api/Rovema.Api.csproj", "Rovema.Api/"]
+RUN dotnet restore "./Rovema.Api/Rovema.Api.csproj"
 COPY . .
-WORKDIR "/src/RovemaPme.Api"
-RUN dotnet build "./RovemaPme.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/Rovema.Api"
+RUN dotnet build "./Rovema.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./RovemaPme.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Rovema.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "RovemaPme.Api.dll"]
+ENTRYPOINT ["dotnet", "Rovema.Api.dll"]
