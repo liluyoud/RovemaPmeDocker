@@ -1,23 +1,21 @@
 using Microsoft.EntityFrameworkCore;
-using Rovema.Shared.Repositories;
 using Rovema.Data.Contexts;
-using Rovema.Data.Repositories;
 using Rovema.Data.Extensions;
+using Rovema.Api.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<RovemaContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("RovemaDb"), o => o.MigrationsAssembly("Rovema.Api")));
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddTransient<IRpaRepository, RpaRepository>();
+builder.Services.AddStackExchangeRedisCache(options =>
+    options.Configuration = builder.Configuration.GetConnectionString("RovemaCache"));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -27,8 +25,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
-app.MapControllers();
+app.MapRpaEndpoints();
 
 app.Run();

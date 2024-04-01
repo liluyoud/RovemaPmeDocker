@@ -8,4 +8,5 @@ namespace Rovema.Data.Contexts;
 public class RovemaContext(DbContextOptions<RovemaContext> options) : IdentityDbContext<IdentityUser>(options)
 {
     public DbSet<Rpa> Rpas { get; set; }
+    public DbSet<Powerplant> Powerplants { get; set; }
 }
