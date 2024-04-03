@@ -6,9 +6,32 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=5000
       - ASPNETCORE_HTTPS_PORTS=5001
-    ports:
-      - "5000:5000"
-      - "5001:5001"
+      - REDIS_URL=rovema.cache:6379
+      - POSTGRES_HOST=rovema.database
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=rovemadb
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    deploy:
+      mode: replicated
+      replicas: 1
+  
+  rovema.database:
+    image: postgres:latest
+    container_name: rovema.database
+    environment:
+      - POSTGRES_DB=rovemadb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/rovemadb:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  rovema.cache:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'

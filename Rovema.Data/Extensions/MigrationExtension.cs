@@ -13,6 +13,6 @@ public static class MigrationExtension
 
         using RovemaContext context = scope.ServiceProvider.GetRequiredService<RovemaContext>();
 
-        context.Database.Migrate();
+        //context.Database.Migrate();
     }
 }
