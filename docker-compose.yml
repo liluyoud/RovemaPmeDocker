@@ -42,10 +42,6 @@ services:
         - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
         - traefik.http.routers.chatwoot_app.middlewares=sslheader@docker
 
-networks:
-  DcltNet:
-    name: DcltNet
-
 volumes:
   rovemaapi_data:
     external: true
