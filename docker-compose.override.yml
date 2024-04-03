@@ -15,7 +15,7 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
     networks:
-      - DcltNet
+      - DcltNet1
 
   rovema.database:
     image: postgres:latest
@@ -27,7 +27,7 @@ services:
     volumes:
       - ./.containers/rovemadb:/var/lib/postgresql/data
     networks:
-      - DcltNet
+      - DcltNet1
     ports:
       - 5432:5432
 
@@ -35,11 +35,11 @@ services:
     image: redis:latest
     restart: always
     networks:
-      - DcltNet
+      - DcltNet1
     ports:
       - '6379:6379'
 
 networks:
-  DcltNet: 
+  DcltNet1: 
     external: false
-    name: DcltNet
+    name: DcltNet1
