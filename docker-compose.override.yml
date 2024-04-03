@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.7'
 
 services:
   rovema_api:
@@ -14,6 +14,7 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - rovemaapi_data:/home/app/rovemaapi
     networks:
       - DcltNet1
 
@@ -41,5 +42,8 @@ services:
 
 networks:
   DcltNet1: 
-    external: false
     name: DcltNet1
+
+volumes:
+  rovemaapi_data:
+    external: false
