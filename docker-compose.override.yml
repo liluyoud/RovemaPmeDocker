@@ -1,13 +1,13 @@
 version: '3.4'
 
 services:
-  rovema.api:
+  rovema_api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=5000
       - ASPNETCORE_HTTPS_PORTS=5001
-      - REDIS_URL=rovema.cache:6379
-      - POSTGRES_HOST=rovema.database
+      - REDIS_URL=rovema_cache:6379
+      - POSTGRES_HOST=rovema_database
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DATABASE=rovemadb
@@ -17,7 +17,7 @@ services:
     networks:
       - DcltNet1
 
-  rovema.database:
+  rovema_database:
     image: postgres:latest
     container_name: rovema.database
     environment:
@@ -31,7 +31,7 @@ services:
     ports:
       - 5432:5432
 
-  rovema.cache:
+  rovema_cache:
     image: redis:latest
     restart: always
     networks:

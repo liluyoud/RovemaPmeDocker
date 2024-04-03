@@ -1,9 +1,11 @@
 version: '3.4'
 
 services:
-  rovema.api:
+  rovema_api:
     image: ${DOCKER_REGISTRY-}rovemaapi
-    container_name: rovema.api
+    container_name: rovema_api
+    volumes:
+      - rovemaapi_data:/var/lib/rovemaapi
     build:
       context: .
       dockerfile: Rovema.Api/Dockerfile
@@ -27,8 +29,8 @@ services:
           - node.role == manager
       resources:
         limits:
-          cpus: "1"
-          memory: 1024M
+          cpus: "0.5"
+          memory: 256M
       labels:
         - traefik.enable=true
         - traefik.http.routers.chatwoot_app.rule=Host('rovemaapi.dclt.com.br')
@@ -42,6 +44,10 @@ services:
         - traefik.http.routers.chatwoot_app.middlewares=sslheader@docker
 
 networks:
-  DcltNet: ## Nome da rede interna
+  DcltNet:
     external: true
-    name: DcltNet ## Nome da rede interna
+    name: DcltNet
+
+volumes:
+  rovemaapi_data:
+    external: true
