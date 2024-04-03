@@ -14,10 +14,9 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-    deploy:
-      mode: replicated
-      replicas: 1
-  
+    networks:
+      - DcltNet
+
   rovema.database:
     image: postgres:latest
     container_name: rovema.database
@@ -27,11 +26,20 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes:
       - ./.containers/rovemadb:/var/lib/postgresql/data
+    networks:
+      - DcltNet
     ports:
       - 5432:5432
 
   rovema.cache:
     image: redis:latest
     restart: always
+    networks:
+      - DcltNet
     ports:
       - '6379:6379'
+
+networks:
+  DcltNet: 
+    external: false
+    name: DcltNet
