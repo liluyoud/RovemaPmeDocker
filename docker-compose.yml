@@ -3,7 +3,6 @@ version: '3.7'
 services:
   rovemaapi:
     image: ${DOCKER_REGISTRY-}rovemaapi
-    container_name: rovemaapi
     volumes:
       - rovemaapi_data:/var/lib/rovemaapi
     build:
